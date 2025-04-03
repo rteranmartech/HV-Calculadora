@@ -63,6 +63,7 @@
       font-size: 0.9rem;
     }
 
+    input[type="text"],
     input[type="number"],
     input[type="date"] {
       width: 100%;
@@ -150,8 +151,7 @@
         margin-bottom: 16px;
       }
 
-      input[type="number"],
-      input[type="date"],
+      input,
       button {
         font-size: 1rem;
       }
@@ -187,7 +187,14 @@
 
     <div class="form-group">
       <label for="inversion">Saldo que tienes hoy o Inversión Inicial:</label>
-      <input type="number" id="inversion" placeholder="Ej: 300" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" />
+      <input
+        type="text"
+        id="inversion"
+        placeholder="Ej: $300"
+        oninput="formatearDolares(this)"
+        onfocus="removerFormato(this)"
+        onblur="formatearDolares(this)"
+      />
     </div>
 
     <div class="form-group">
@@ -211,6 +218,19 @@
   </div>
 
   <script>
+    function formatearDolares(input) {
+      let valor = input.value.replace(/[^0-9.]/g, '');
+      if (valor) {
+        input.value = `$${valor}`;
+      } else {
+        input.value = '';
+      }
+    }
+
+    function removerFormato(input) {
+      input.value = input.value.replace(/[^0-9.]/g, '');
+    }
+
     function calcularMes(anio, mes, diaInicio, inversionInicial, porcentajeDiario, container) {
       const ultimoDiaMes = new Date(anio, mes + 1, 0).getDate();
       const nombreMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -256,7 +276,8 @@
     }
 
     function calcularVariosMeses(cantidadMeses) {
-      const inversionInicial = parseFloat(document.getElementById("inversion").value);
+      const inversionInput = document.getElementById("inversion").value.replace(/[^0-9.]/g, '');
+      const inversionInicial = parseFloat(inversionInput);
       const cantidadSenales = parseFloat(document.getElementById("porcentaje").value);
       const fechaConsultaStr = document.getElementById("fechaConsulta").value;
       const resultadoContainer = document.getElementById("resultado-container");
@@ -296,3 +317,4 @@
   </script>
 </body>
 </html>
+
