@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width:device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Saldo y Señal Diaria HV</title>
     <style>
         body {
@@ -72,7 +72,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-Y92RHP7V0F');
     </script>
 </head>
@@ -80,23 +79,22 @@
     <div class="container">
         <h1>Calculadora de Saldo y Señal Diaria HV</h1>
         <div class="descripcion-calculadora">
-            Esta calculadora te permite simular el crecimiento de tu saldo o inversión a 6 meses, según el monto y la cantidad de señales que tengas (1 señal = 1%). Puedes elegir la fecha de inicio, ya sea tu saldo actual o una inversión futura. Pronto estará disponible la simulación de retiro.
+            Esta calculadora te permite simular el crecimiento de tu saldo o inversión a 6 meses, según el monto y la cantidad de señales que tengas (1 señal = 0.8%). Puedes elegir la fecha de inicio, ya sea tu saldo actual o una inversión futura. Pronto estará disponible la simulación de retiro.
         </div>
         <div class="form-group">
             <label for="inversion">Saldo que tienes hoy o Inversión Inicial:</label>
             <input type="number" id="inversion" placeholder="Ej: 300">
         </div>
         <div class="form-group">
-            <label for="porcentaje">Cuantas señales haces al dia?:</label>
-            <input type="number" id="porcentaje" placeholder="Ej: 2">
+            <label for="porcentaje">¿Cuántas señales haces al día? (1 a 5):</label>
+            <input type="number" id="porcentaje" placeholder="Ej: 2" min="1" max="5">
         </div>
         <div class="form-group">
-            <label for="fechaConsulta">Fecha de Consulta (Estimacion de 6 meses):</label>
+            <label for="fechaConsulta">Fecha de Consulta (Estimación de 6 meses):</label>
             <input type="date" id="fechaConsulta">
         </div>
         <button onclick="calcularVariosMeses(6)">Simular Saldo</button>
-        <div id="resultado-container">
-        </div>
+        <div id="resultado-container"></div>
 
         <div class="pie-pagina">
             2025 Calculadora HV San Lazaro ® Todos los derechos reservados<br>
@@ -106,7 +104,6 @@
 
     <script>
         function calcularMes(anio, mes, diaInicio, inversionInicial, porcentajeDiario, container) {
-            const primerDiaMes = new Date(anio, mes, 1);
             const ultimoDiaMes = new Date(anio, mes + 1, 0).getDate();
             const nombreMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
@@ -125,29 +122,18 @@
             tabla.appendChild(thead);
 
             let saldoActual = inversionInicial;
-            let diaActual = diaInicio;
 
             for (let dia = diaInicio; dia <= ultimoDiaMes; dia++) {
                 const fechaIteracion = new Date(anio, mes, dia);
-                // Formato de fecha DD-MM-YYYY
                 const fechaFormateada = `${String(fechaIteracion.getDate()).padStart(2, '0')}-${String(fechaIteracion.getMonth() + 1).padStart(2, '0')}-${fechaIteracion.getFullYear()}`;
                 const senalDiaria = saldoActual * porcentajeDiario;
 
                 const row = tbody.insertRow();
-                const fechaCell = row.insertCell();
-                const senalCell = row.insertCell();
-                const saldoCell = row.insertCell();
-
-                fechaCell.innerText = fechaFormateada;
-                senalCell.innerText = `$${senalDiaria.toFixed(1)}`;
-                saldoCell.innerText = `$${saldoActual.toFixed(2)}`;
-
-                row.appendChild(fechaCell);
-                row.appendChild(senalCell);
-                row.appendChild(saldoCell);
+                row.insertCell().innerText = fechaFormateada;
+                row.insertCell().innerText = `$${senalDiaria.toFixed(1)}`;
+                row.insertCell().innerText = `$${saldoActual.toFixed(2)}`;
 
                 saldoActual += senalDiaria;
-                diaActual++;
             }
 
             tabla.appendChild(tbody);
@@ -159,35 +145,41 @@
             container.appendChild(tituloMes);
             container.appendChild(tabla);
 
-            return saldoActual; // Retornamos el saldo final del mes
+            return saldoActual;
         }
 
         function calcularVariosMeses(cantidadMeses) {
             const inversionInicial = parseFloat(document.getElementById("inversion").value);
-            const porcentajeDiario = parseFloat(document.getElementById("porcentaje").value) / 100;
+            const cantidadSenales = parseFloat(document.getElementById("porcentaje").value);
             const fechaConsultaStr = document.getElementById("fechaConsulta").value;
             const resultadoContainer = document.getElementById("resultado-container");
-            resultadoContainer.innerHTML = ""; // Limpiar contenedores anteriores
+            resultadoContainer.innerHTML = "";
 
-            if (isNaN(inversionInicial) || isNaN(porcentajeDiario) || !fechaConsultaStr) {
-                document.getElementById("resultado-container").innerText = "Por favor, complete todos los campos con valores válidos.";
+            if (isNaN(inversionInicial) || isNaN(cantidadSenales) || !fechaConsultaStr) {
+                resultadoContainer.innerText = "Por favor, complete todos los campos con valores válidos.";
                 return;
             }
 
+            // Validación de cantidad de señales (1 a 5)
+            if (cantidadSenales < 1 || cantidadSenales > 5) {
+                resultadoContainer.innerText = "La cantidad de señales debe estar entre 1 y 5.";
+                return;
+            }
+
+            const porcentajeDiario = cantidadSenales * 0.008; // 0.8% por señal
             const partesFecha = fechaConsultaStr.split('-');
             const anioConsulta = parseInt(partesFecha[0]);
-            const mesConsulta = parseInt(partesFecha[1]) - 1; // ¡Ojo! Restamos 1 porque getMonth() es 0-indexed
+            const mesConsulta = parseInt(partesFecha[1]) - 1;
             const diaConsulta = parseInt(partesFecha[2]);
 
             let saldoActual = inversionInicial;
             let anioActual = anioConsulta;
             let mesActual = mesConsulta;
-            let diaInicio = diaConsulta; // Guardamos el día de inicio
+            let diaInicio = diaConsulta;
 
             for (let i = 0; i < cantidadMeses; i++) {
                 saldoActual = calcularMes(anioActual, mesActual, diaInicio, saldoActual, porcentajeDiario, resultadoContainer);
-                diaInicio = 1; // Reseteamos el día de inicio para los meses siguientes
-
+                diaInicio = 1;
                 mesActual++;
                 if (mesActual > 11) {
                     mesActual = 0;
