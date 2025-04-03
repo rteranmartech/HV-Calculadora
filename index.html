@@ -187,12 +187,12 @@
 
     <div class="form-group">
       <label for="inversion">Saldo que tienes hoy o Inversión Inicial:</label>
-      <input type="number" id="inversion" placeholder="Ej: 300" />
+      <input type="number" id="inversion" placeholder="Ej: 300" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" />
     </div>
 
     <div class="form-group">
       <label for="porcentaje">¿Cuántas señales haces al día?:</label>
-      <input type="number" id="porcentaje" placeholder="Ej: 2" min="1" max="5" />
+      <input type="number" id="porcentaje" placeholder="Ej: 2" min="1" max="5" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" />
     </div>
 
     <div class="form-group">
@@ -240,7 +240,7 @@
         row.insertCell().innerText = fechaFormateada;
         row.insertCell().innerText = `$${senalDiaria.toFixed(1)}`;
         saldoActual += senalDiaria;
-        row.insertCell().innerText = `$${saldoActual.toFixed(1)}`; // ajustado a 1 decimal
+        row.insertCell().innerText = `$${saldoActual.toFixed(1)}`;
       }
 
       tabla.appendChild(tbody);
