@@ -2,375 +2,266 @@
 <html lang="es">
 
 <head>
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y92RHP7V0F"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-Y92RHP7V0F');
-  </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Frutas Frescas y Congeladas</title>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Calculadora HV - San Lázaro</title>
-  <style>
-    :root {
-      --primary-color: #007bff;
-      --primary-hover: #0056b3;
-      --bg-color: #f8f9fa;
-      --card-bg: #ffffff;
-      --text-color: #212529;
-      --border-color: #dee2e6;
-      --comision-color: #e2e3e5;
-      --retiro-color: #d1e7ff;
-      --saldo-final-color: #d1f0d1;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      height: 100%;
-    }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
 
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 40px 24px;
-      background-color: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      text-align: center;
-    }
+        nav {
+            background-color: #388E3C;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0.5rem 0;
+        }
 
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 32px;
-      color: var(--primary-color);
-    }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: white;
-      background-color: var(--primary-color);
-      border: none;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+        nav a:hover {
+            text-decoration: underline;
+        }
 
-    .btn:hover {
-      background-color: var(--primary-hover);
-    }
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            background-color: #81C784;
+        }
 
-    .hidden {
-      display: none;
-    }
+        .section {
+            padding: 2rem;
+        }
 
-    .form-group {
-      margin-bottom: 16px;
-      text-align: left;
-    }
+        h2 {
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 0.5rem;
+        }
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 6px;
-    }
+        /* Grid para las cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
 
-    input[type="text"],
-    input[type="number"],
-    input[type="date"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    input[readonly] {
-      background-color: #f0f0f0;
-      box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
-    }
+        .card img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
 
-    .resultado-barra {
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 8px;
-      font-weight: bold;
-      text-align: left;
-    }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
 
-    .comision {
-      background-color: var(--comision-color);
-    }
+        .card-price {
+            color: #E53935;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
 
-    .retiro {
-      background-color: var(--retiro-color);
-    }
+        .card-stock {
+            margin-bottom: 0.5rem;
+        }
 
-    .saldo-final {
-      background-color: var(--saldo-final-color);
-    }
+        .divider {
+            background-color: #E0E0E0;
+            text-align: center;
+            font-weight: bold;
+            padding: 1rem;
+            margin: 2rem 0;
+            color: #333;
+        }
 
-    .resultado-tabla {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      background-color: white;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      overflow: hidden;
-    }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
 
-    .resultado-tabla th,
-    .resultado-tabla td {
-      border: 1px solid var(--border-color);
-      padding: 8px 10px;
-      font-size: 0.9rem;
-      text-align: left;
-    }
+        footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
 
-    .resultado-tabla th {
-      background-color: #e9ecef;
-      font-weight: bold;
-    }
+        /* Responsive */
+        @media(max-width: 1024px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
-    .mes-titulo {
-      font-weight: bold;
-      margin-top: 24px;
-      font-size: 1.1rem;
-      color: var(--primary-color);
-      text-align: left;
-    }
-
-    .pie-pagina {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: #888;
-      text-align: center;
-    }
-  </style>
+        @media(max-width: 600px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container" id="menu">
-    <h1>Calculadora HV<br>San Lázaro</h1>
-    <button class="btn" onclick="mostrar('saldos')">Simular Saldos</button>
-    <button class="btn" onclick="mostrar('retiros')">Simular Retiros</button>
-    <div class="pie-pagina">© 2025 Calculadora HV San Lázaro - Los datos mostrados son simulaciones y pueden variar.<br>® Todos los derechos reservados - Desarrollado por Sanlazareños 🌴</div>
-  </div>
 
-  <div class="container hidden" id="saldos">
-    <h2>Simulador de Saldos</h2>
-    <div class="descripcion-calculadora">
-      📈 Simula el crecimiento de tu saldo o inversión a 6 meses según el monto y las señales que tengas (1 señal = 0.8% a 1% aprox). Puedes elegir la fecha de inicio, ya sea saldo actual o inversión futura.<p></p>
+<header>
+    <h1>Frutas Frescas y Congeladas</h1>
+    <p>Producto 100% natural - Sin aditivos - Alto en vitaminas</p>
+</header>
+
+<nav>
+    <a href="#">Inicio</a>
+    <a href="#">Catálogo</a>
+    <a href="#">Contacto</a>
+</nav>
+
+<div class="social">
+    <a href="#">Instagram</a>
+    <a href="#">Twitter</a>
+    <a href="#">Facebook</a>
+</div>
+
+<section class="section">
+    <h2>🍇 Productos destacados</h2>
+
+    <div class="cards">
+        <!-- Card 1 -->
+        <div class="card">
+            <img src="https://via.placeholder.com/200x200?text=Fresa+Albion" alt="Fresa Albion">
+            <div class="card-title">Fresa Albion caja × 4 kg grande</div>
+            <div class="card-price">$25</div>
+            <div class="card-stock">Stock disponible: 25 unidades</div>
+            <progress value="25" max="100">25%</progress>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <img src="https://via.placeholder.com/200x200?text=Fresa+Capitola" alt="Fresa Capitola">
+            <div class="card-title">Fresa Capitola caja surtida 4 kg</div>
+            <div class="card-price">$22</div>
+            <div class="card-stock">Stock disponible: 50 unidades</div>
+            <progress value="50" max="100">50%</progress>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+            <img src="https://via.placeholder.com/200x200?text=Fresa+Cesta" alt="Fresa Cesta">
+            <div class="card-title">Fresa Capitola grande en cesta 13 kg</div>
+            <div class="card-price">$55</div>
+            <div class="card-stock">Stock disponible: 80 unidades</div>
+            <progress value="80" max="100">80%</progress>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card">
+            <img src="https://via.placeholder.com/200x200?text=Guanabana" alt="Guanabana">
+            <div class="card-title">Guanábana en moya sin semilla 1 kg</div>
+            <div class="card-price">$2.8</div>
+            <div class="card-stock">Stock disponible: 60 unidades</div>
+            <progress value="60" max="100">60%</progress>
+        </div>
     </div>
-    <div class="form-group">
-      <label for="inversionSaldos">¿Saldo que tienes hoy o cual sera tu inversión inicial?</label>
-      <input type="text" id="inversionSaldos" placeholder="Ej: $300 - sin puntos" inputmode="numeric">
+</section>
+
+<!-- Separador -->
+<div class="divider">🥶 Congelados y frescos los productos 🥶</div>
+
+<!-- Video de proceso -->
+<section class="section">
+    <h2>🎬 Conoce cómo procesamos nuestros productos</h2>
+    <div class="video-container">
+        <video controls width="640" height="360">
+            <source src="tu-video.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+        </video>
     </div>
-    <div class="form-group">
-      <label for="senalesSaldos">¿Cuántas señales haces al día?</label>
-      <input type="number" id="senalesSaldos" min="1" max="5" inputmode="numeric" pattern="[0-9]*">
+</section>
+
+<!-- Más tarjetas de productos congelados -->
+<section class="section">
+    <h2>🍈 Ventas de productos congelados</h2>
+
+    <div class="cards">
+        <div class="card">
+            <img src="https://via.placeholder.com/200x200?text=Mora" alt="Mora congelada">
+            <div class="card-title">Mora congelada premium bolsa 1 kg</div>
+            <div class="card-price">$3.0</div>
+            <div class="card-stock">Stock disponible: 40 unidades</div>
+            <progress value="40" max="100">40%</progress>
+        </div>
+
+        <div class="card">
+            <img src="https://via.placeholder.com/200x200?text=Piña" alt="Piña en cubos">
+            <div class="card-title">Piña en cubos congelada 1 kg</div>
+            <div class="card-price">$2.5</div>
+            <div class="card-stock">Stock disponible: 70 unidades</div>
+            <progress value="70" max="100">70%</progress>
+        </div>
+
+        <div class="card">
+            <img src="https://via.placeholder.com/200x200?text=Mango" alt="Pulpa de mango">
+            <div class="card-title">Pulpa de mango lista para smoothies 1 kg</div>
+            <div class="card-price">$3.2</div>
+            <div class="card-stock">Stock disponible: 90 unidades</div>
+            <progress value="90" max="100">90%</progress>
+        </div>
+
+        <div class="card">
+            <img src="https://via.placeholder.com/200x200?text=Mix+Berries" alt="Mix berries">
+            <div class="card-title">Mix berries congelados 1 kg</div>
+            <div class="card-price">$4.0</div>
+            <div class="card-stock">Stock disponible: 50 unidades</div>
+            <progress value="50" max="100">50%</progress>
+        </div>
     </div>
-    <div class="form-group">
-      <label for="fechaSaldos">Selecciona fecha de Consulta (estimación 6 meses)</label>
-      <input type="date" id="fechaSaldos">
-    </div>
-    <button class="btn" onclick="calcularSaldo()">Simular Saldo</button>
-    <button class="btn" onclick="volver()">Volver al Menú</button>
-    <div id="resultadoSaldos"></div>
-    <div class="pie-pagina">© 2025 Calculadora HV San Lázaro - Los datos mostrados son simulaciones y pueden variar.<br>® Todos los derechos reservados - Desarrollado por Sanlazareños 🌴</div>
-  </div>
+</section>
 
-  <div class="container hidden" id="retiros">
-    <h2>Simulador de Retiros</h2>
-    <div class="form-group">
-      <label for="saldoRetiros">¿Cuál es tu saldo hoy?</label>
-      <input type="text" id="saldoRetiros" placeholder="Ej: $600 - sin puntos" inputmode="numeric">
-    </div>
-    <div class="form-group">
-      <label for="montoRetiro">¿Cuál sería tu monto a retirar?</label>
-      <input type="text" id="montoRetiro" placeholder="$Ej: 50" inputmode="numeric">
-    </div>
-    <button class="btn" onclick="simularRetiro()">Simular Retiro</button>
-    <button class="btn" onclick="volver()">Volver al Menú</button>
-    <div id="resultadoRetiros"></div>
-    <div id="postSimulacion" class="hidden">
-      <div class="form-group">
-        <label for="saldoPosterior">Saldo restante post simulación de retiro:</label>
-        <input type="text" id="saldoPosterior" readonly>
-      </div>
-      <div class="form-group">
-        <label for="senalesPosterior">¿Cuántas señales haces al día?</label>
-        <input type="number" id="senalesPosterior" min="1" max="5" inputmode="numeric" pattern="[0-9]*">
-      </div>
-      <div class="form-group">
-        <label for="fechaPosterior">Selecciona fecha de Consulta (estimación 6 meses)</label>
-        <input type="date" id="fechaPosterior">
-      </div>
-      <button class="btn" onclick="calcularPosterior()">Simular Saldo</button>
-      <div id="resultadoPosterior"></div>
-    </div>
-    <div class="pie-pagina">© 2025 Calculadora HV San Lázaro - Los datos mostrados son simulaciones y pueden variar.<br>® Todos los derechos reservados - Desarrollado por Sanlazareños 🌴</div>
-  </div>
+<footer>
+    <p>Contacto: 0424-1411022 | Correo: inversioneshortifrutca@gmail.com</p>
+    <p>Ventas al mayor en toda Caracas</p>
+</footer>
 
-  <script>
-    function mostrar(id) {
-      volver(); // Limpia todo al cambiar de vista
-      document.getElementById('menu').classList.add('hidden');
-      document.getElementById('saldos').classList.add('hidden');
-      document.getElementById('retiros').classList.add('hidden');
-      document.getElementById(id).classList.remove('hidden');
-    }
-
-    function volver() {
-      document.getElementById('menu').classList.remove('hidden');
-      document.getElementById('saldos').classList.add('hidden');
-      document.getElementById('retiros').classList.add('hidden');
-
-      // Limpiar todos los inputs excepto los readonly
-      document.querySelectorAll('input').forEach(input => {
-        if (!input.readOnly) input.value = '';
-      });
-
-      // Limpiar resultados
-      ['resultadoSaldos', 'resultadoRetiros', 'resultadoPosterior'].forEach(id => {
-        const div = document.getElementById(id);
-        if (div) div.innerHTML = '';
-      });
-
-      // Ocultar postSimulacion
-      const post = document.getElementById("postSimulacion");
-      if (post) post.classList.add("hidden");
-    }
-
-    document.querySelectorAll('input[type="text"]:not([readonly])').forEach(input => {
-      input.addEventListener('input', () => {
-        const raw = input.value.replace(/[^0-9.]/g, '');
-        input.value = raw ? `$${raw}` : '';
-      });
-    });
-
-    function calcularSaldo() {
-      const inversion = parseFloat(document.getElementById("inversionSaldos").value.replace(/[^0-9.]/g, ''));
-      const senales = parseFloat(document.getElementById("senalesSaldos").value);
-      const fecha = document.getElementById("fechaSaldos").value;
-      const contenedor = document.getElementById("resultadoSaldos");
-      if (!fecha || isNaN(inversion) || isNaN(senales)) {
-        alert("Por favor completa todos los campos correctamente.");
-        return;
-      }
-      contenedor.innerHTML = '';
-      generarTabla(contenedor, inversion, senales, fecha);
-    }
-
-    function simularRetiro() {
-      const saldo = parseFloat(document.getElementById("saldoRetiros").value.replace(/[^0-9.]/g, ''));
-      const retiro = parseFloat(document.getElementById("montoRetiro").value.replace(/[^0-9.]/g, ''));
-      const resultado = document.getElementById("resultadoRetiros");
-      const posterior = document.getElementById("postSimulacion");
-      const campoPosterior = document.getElementById("saldoPosterior");
-
-      if (isNaN(saldo) || isNaN(retiro)) {
-        alert("Por favor ingresa un saldo y retiro válidos.");
-        return;
-      }
-      if (retiro < 40) {
-        alert("El retiro mínimo para simular es $40.");
-        return;
-      }
-      if (retiro > saldo) {
-        alert("No puedes retirar más que tu saldo disponible.");
-        return;
-      }
-
-      const porc = 0.05;
-      const comision = retiro * porc;
-      const neto = retiro - comision;
-      const restante = saldo - retiro;
-
-      resultado.innerHTML = `
-        <div class="resultado-barra comision">Resta ${porc * 100}% porcentaje plataforma: $${comision.toFixed(2)}</div>
-        <div class="resultado-barra retiro">Monto que recibirás por este retiro: $${neto.toFixed(2)}</div>
-        <div class="resultado-barra saldo-final">Saldo que quedaría en tu cuenta: $${restante.toFixed(2)}</div>
-        <p style="margin-top: 20px; font-size: 0.9rem; color: #333;">
-          🔍 Te mostraremos un pronóstico estimado basado en el retiro que estás simulando.
-Esta herramienta te permite visualizar cómo afectaría ese retiro a tu saldo futuro, ayudándote a tomar decisiones más informadas.
-
-⬇️ Continúa simulando ⬇️ 
-        </p>
-      `;
-      campoPosterior.value = `$${restante.toFixed(2)}`;
-      posterior.classList.remove("hidden");
-    }
-
-    function calcularPosterior() {
-      const inversion = parseFloat(document.getElementById("saldoPosterior").value.replace(/[^0-9.]/g, ''));
-      const senales = parseFloat(document.getElementById("senalesPosterior").value);
-      const fecha = document.getElementById("fechaPosterior").value;
-      const contenedor = document.getElementById("resultadoPosterior");
-      if (!fecha || isNaN(inversion) || isNaN(senales)) {
-        alert("Por favor completa todos los campos correctamente.");
-        return;
-      }
-      contenedor.innerHTML = '';
-      generarTabla(contenedor, inversion, senales, fecha);
-    }
-
-    function generarTabla(container, inversion, senales, fecha) {
-      const porcentajeDiario = senales * 0.008;
-      let [anio, mes, dia] = fecha.split('-').map(Number);
-      mes--;
-      let saldo = inversion;
-      for (let i = 0; i < 6; i++) {
-        const ultimoDia = new Date(anio, mes + 1, 0).getDate();
-        let html = `<div class="mes-titulo">Pronóstico en: ${new Date(anio, mes).toLocaleString('es-ES', {
-          month: 'long'
-        })} ${anio}</div>`;
-        html += '<table class="resultado-tabla"><thead><tr><th>Fecha</th><th>Señal Día</th><th>Saldo (fin del día)</th></tr></thead><tbody>';
-        for (let d = dia; d <= ultimoDia; d++) {
-          const ganancia = saldo * porcentajeDiario;
-          saldo += ganancia;
-          html += `<tr><td>${d.toString().padStart(2, '0')}-${(mes + 1).toString().padStart(2, '0')}-${anio}</td><td>$${ganancia.toFixed(1)}</td><td>$${saldo.toFixed(1)}</td></tr>`;
-        }
-        html += '</tbody></table>';
-        container.innerHTML += html;
-        dia = 1;
-        mes++;
-        if (mes > 11) {
-          mes = 0;
-          anio++;
-        }
-      }
-    }
-
-    ['senalesSaldos', 'senalesPosterior'].forEach(id => {
-      const input = document.getElementById(id);
-      input.addEventListener('input', () => {
-        let value = parseInt(input.value);
-        if (isNaN(value)) {
-          input.value = '';
-        } else if (value > 5) {
-          input.value = 5;
-        } else if (value < 1) {
-          input.value = '';
-        }
-      });
-    });
-  </script>
 </body>
+</html>
+
 
 </html>
 
